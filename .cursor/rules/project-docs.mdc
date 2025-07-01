@@ -1,0 +1,91 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 씨앗AI 프로젝트 문서 가이드
+
+## 프로젝트 개요
+이 프로젝트는 씨앗교회의 설교를 기반으로 성도들의 질문에 AI가 답변하는 RAG(Retrieval-Augmented Generation) 서비스입니다.
+
+## 핵심 문서 참조
+
+### 🎯 프로젝트 이해
+- 전체 비전과 목표: [docs/01-project-overview.md](mdc:docs/01-project-overview.md)
+- 사용자 요구사항: [docs/03-user-stories.md](mdc:docs/03-user-stories.md)
+- 개발 로드맵: [docs/08-development-plan.md](mdc:docs/08-development-plan.md)
+
+### 🛠️ 기술 스택
+- 선정된 기술 스택: [docs/04-tech-stack.md](mdc:docs/04-tech-stack.md)
+- RAG 파이프라인 설계: [docs/06-rag-pipeline.md](mdc:docs/06-rag-pipeline.md)
+- 비용 분석: [docs/12-cost-analysis.md](mdc:docs/12-cost-analysis.md)
+
+### 📋 전체 문서 목록
+[docs/README.md](mdc:docs/README.md)에서 모든 문서의 현재 상태를 확인할 수 있습니다.
+
+## 개발 가이드라인
+
+### 기술 스택 우선순위
+1. **STT**: OpenAI Whisper (large-v3) 사용
+2. **임베딩**: 한국어 특화 모델 (ko-sbert 등) 우선
+3. **벡터 DB**: 개발 단계는 ChromaDB, 프로덕션은 Pinecone
+4. **LLM**: OpenAI GPT-4o 메인, Claude-3.5 대안
+5. **백엔드**: Python + FastAPI
+6. **프론트엔드**: Next.js (나중에 개발)
+
+### 개발 우선순위
+1. 영상 다운로드 + STT 파이프라인
+2. 텍스트 처리 + 임베딩 저장
+3. RAG 검색 + 답변 생성
+4. 목사님 스타일 개인화
+5. 프론트엔드 개발
+
+### 핵심 기능 요구사항
+- 유튜브 설교 영상 자동 처리
+- 타임스탬프가 포함된 유튜브 링크 제공
+- 목사님의 말투와 스타일로 답변 생성
+- 3초 이내 응답 시간 목표
+- 한국어 설교 내용 특화 처리
+
+## 문서 업데이트 규칙
+
+### 수정이 필요한 경우
+- 기술 스택 변경 시 → [docs/04-tech-stack.md](mdc:docs/04-tech-stack.md) 업데이트
+- 개발 계획 변경 시 → [docs/08-development-plan.md](mdc:docs/08-development-plan.md) 업데이트
+- 새로운 요구사항 발견 시 → [docs/03-user-stories.md](mdc:docs/03-user-stories.md) 업데이트
+- 아키텍처 변경 시 → [docs/05-system-architecture.md](mdc:docs/05-system-architecture.md) 작성/업데이트
+
+### 문서 동기화 체크리스트
+- [ ] 기술 스택 변경사항이 비용 분석에 반영되었는가?
+- [ ] 새로운 기능이 사용자 스토리에 포함되었는가?
+- [ ] 개발 일정 변경이 전체 로드맵에 반영되었는가?
+- [ ] 문서 버전과 최종 업데이트 날짜가 기록되었는가?
+
+## 개발 중 주의사항
+
+### 한국어 특화
+- 모든 텍스트 처리는 한국어 최적화 필요
+- 형태소 분석기(Kiwi) 사용 고려
+- 한국어 임베딩 모델 우선 사용
+
+### 성능 최적화
+- 응답 시간 3초 이내 목표
+- 캐싱 전략 구현
+- 비용 효율적인 API 사용
+
+### 품질 관리
+- 목사님의 답변 스타일 학습
+- 신학적 정확성 검증
+- 사용자 피드백 수집 체계
+
+## 다음 단계 추천
+
+개발을 시작할 때는 다음 순서로 진행하세요:
+
+1. **프로젝트 구조 생성**: 백엔드 프로젝트 초기 설정
+2. **유튜브 다운로드**: yt-dlp 구현
+3. **STT 파이프라인**: Whisper 통합
+4. **텍스트 처리**: 청킹 및 전처리
+5. **임베딩 시스템**: 벡터 DB 연결
+
+각 단계마다 관련 문서를 참조하고 필요시 업데이트하세요.

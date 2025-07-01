@@ -1,0 +1,229 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 씨앗AI 개발 코딩 표준
+
+## 프로젝트 구조
+
+### 백엔드 (Python)
+```
+backend/
+├── app/
+│   ├── api/          # FastAPI 라우터
+│   ├── core/         # 설정, 보안
+│   ├── services/     # 비즈니스 로직
+│   ├── models/       # 데이터 모델
+│   └── utils/        # 유틸리티 함수
+├── tests/
+├── requirements.txt
+└── main.py
+```
+
+### 프론트엔드 (Next.js)
+```
+frontend/
+├── src/
+│   ├── components/   # 재사용 컴포넌트
+│   ├── pages/        # 페이지
+│   ├── hooks/        # 커스텀 훅
+│   └── utils/        # 유틸리티
+├── public/
+└── package.json
+```
+
+## 개발 원칙
+
+### 1. API 설계
+- RESTful API 설계 원칙 준수
+- 응답 시간 최적화 (3초 이내 목표)
+- 적절한 HTTP 상태 코드 사용
+- API 문서화 (FastAPI 자동 문서화 활용)
+
+### 2. 데이터 처리
+- 비동기 처리 적극 활용 (asyncio)
+- 배치 처리로 효율성 향상
+- 적절한 청킹 전략 구현
+- 메모리 사용량 최적화
+
+### 3. 에러 핸들링
+- 명확한 에러 메시지 제공
+- 로깅으로 디버깅 지원
+- Graceful degradation 구현
+- 사용자 친화적 에러 처리
+
+### 4. 보안
+- API 키 환경변수 관리
+- 입력 데이터 검증
+- Rate limiting 구현
+- CORS 설정
+
+## 코딩 컨벤션
+
+### Python (백엔드)
+- PEP 8 스타일 가이드 준수
+- Type hints 사용
+- Docstring 작성 (Google 스타일)
+- 함수명: snake_case
+- 클래스명: PascalCase
+- 상수명: UPPER_CASE
+
+### TypeScript/JavaScript (프론트엔드)
+- ESLint + Prettier 사용
+- 함수형 컴포넌트 + Hooks 우선
+- 컴포넌트명: PascalCase
+- 함수명: camelCase
+- 파일명: kebab-case
+
+## 필수 라이브러리
+
+### 백엔드 핵심
+```python
+# API 프레임워크
+fastapi
+uvicorn
+
+# AI/ML
+openai
+langchain
+sentence-transformers
+chromadb
+
+# 비디오/오디오 처리
+yt-dlp
+whisper
+ffmpeg-python
+
+# 한국어 처리
+kiwipiepy
+konlpy
+
+# 유틸리티
+python-dotenv
+pydantic
+pytest
+```
+
+### 프론트엔드 핵심
+```json
+{
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3.0.0",
+    "@tanstack/react-query": "^5.0.0"
+  }
+}
+```
+
+## 성능 최적화 가이드
+
+### 1. STT 처리 최적화
+- Whisper large-v3 모델 사용
+- GPU 가속 활용 (가능한 경우)
+- 오디오 전처리로 품질 향상
+- 배치 처리로 효율성 증대
+
+### 2. 임베딩 최적화
+- 한국어 특화 모델 사용 (ko-sbert)
+- 캐싱으로 중복 처리 방지
+- 벡터 DB 인덱싱 최적화
+- 배치 임베딩 처리
+
+### 3. 검색 최적화
+- 하이브리드 검색 (의미 + 키워드)
+- 메타데이터 필터링 활용
+- 결과 개수 제한 (top-k)
+- 유사도 임계값 설정
+
+### 4. LLM 최적화
+- 프롬프트 최적화
+- 응답 길이 제한
+- 스트리밍 응답 고려
+- 모델 티어링 (간단한 질문은 작은 모델)
+
+## 테스트 전략
+
+### 단위 테스트
+- pytest 사용
+- 커버리지 80% 이상 목표
+- Mock 객체 적극 활용
+- 비동기 함수 테스트
+
+### 통합 테스트
+- API 엔드포인트 테스트
+- 데이터베이스 연동 테스트
+- 외부 서비스 모킹
+
+### 성능 테스트
+- 응답 시간 측정
+- 동시 사용자 테스트
+- 메모리 사용량 모니터링
+- API 부하 테스트
+
+## 배포 및 운영
+
+### 환경 설정
+```bash
+# 개발 환경
+export ENVIRONMENT=development
+export OPENAI_API_KEY=your_key
+export WHISPER_MODEL=large-v3
+
+# 프로덕션 환경
+export ENVIRONMENT=production
+export REDIS_URL=redis://localhost:6379
+export POSTGRES_URL=postgresql://...
+```
+
+### 모니터링
+- 응답 시간 모니터링
+- API 사용량 추적
+- 에러 로그 수집
+- 비용 모니터링
+
+### CI/CD
+- GitHub Actions 사용
+- 자동 테스트 실행
+- 코드 품질 검사
+- 자동 배포 (스테이징 → 프로덕션)
+
+## 문서화 규칙
+
+### 코드 문서화
+```python
+def process_sermon_text(text: str, chunk_size: int = 1000) -> List[str]:
+    """
+    설교 텍스트를 RAG 처리를 위해 청킹합니다.
+    
+    Args:
+        text: 원본 설교 텍스트
+        chunk_size: 청크 크기 (기본값: 1000자)
+        
+    Returns:
+        청킹된 텍스트 리스트
+        
+    Raises:
+        ValueError: 텍스트가 비어있는 경우
+    """
+    pass
+```
+
+### API 문서화
+- FastAPI 자동 문서화 활용
+- 예제 요청/응답 포함
+- 에러 코드 설명
+- 사용 사례 제공
+
+## 보안 체크리스트
+
+- [ ] API 키 환경변수 관리
+- [ ] 입력 데이터 검증 및 sanitization
+- [ ] Rate limiting 구현
+- [ ] HTTPS 강제 사용
+- [ ] CORS 적절히 설정
+- [ ] 로그에 민감 정보 미포함
+- [ ] 정기적인 의존성 업데이트
+- [ ] 보안 헤더 설정

@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 가상환경
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# 환경변수
+.env
+
+# 로그
+*.log
+logs/
+
+# 테스트
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# 데이터
+data/
+vectordb/
+downloads/
+temp/
+*.db
+
+# 기타
+.directory
+.Trash-*
+$RECYCLE.BIN/
+Desktop.ini
+Thumbs.db
